@@ -5,7 +5,7 @@ The larger AirBnB clone project has the goal of creating and deploying a simple 
 1. **Command interpreter:** to manipulate data without a visual interface, like in a Shell (perfect for development and debugging)
 2. **Website:** shows the final product to everybody: static and dynamic (the front-end).
 3. **Storage:** a database or files (data = objects)
-4. **API:** provides a communication interface between the front-end and your data (retrieve, create, delete, update them)
+4. **API:** provides a communication interface between the front-end and data (retrieve, create, delete, update them)
 
 ## The Console
 
@@ -21,15 +21,43 @@ The specific objectives in this part of the project are:
 
 ### Starting
 
-Clone this repo and run the `console.py` file:
+Clone this repo and navigate into it:
 
 ```bash
 git clone https://github.com/nooby6/AirBnB_clone
 cd AirBnB_clone
-./console.py
 ```
 
-This starts the console in interactive mode
+The python scripts in this project start with the shebang `#!/usr/bin/python3` and so can be executed directly on a Linux system.  
+To start the console:
+
+* Interactive mode
+
+    ```bash
+    $ ./console.py
+    (hbnb)
+    ```
+
+* Non-interactive/Command mode
+
+    ```bash
+    ./console.py cmd args
+    ```
+
+For other platforms, pass in the path to the Python executable or if already added to path, use the appropriate python command(`python`, `python3`)
+
+* Interactive mode
+
+    ```bash
+    $ python console.py
+    (hbnb)
+    ```
+
+* Non-interactive/Command mode
+
+    ```bash
+    python console.py cmd args
+    ```
 
 ### Usage
 
