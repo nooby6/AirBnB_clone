@@ -28,12 +28,20 @@ class HBNBCommand(cmd.Cmd):
         Prints the id
         """
         if name:
-            new_instance = BaseModel
-            new_instance.save() #implement save method in the BaseModel class
+            #check if the class exists
+            if class_exists(name):
+                new_instance = Base model()
+                new_instance.save() #implement save method in BaseModel class
+                print(new_instance.id)
+            else:
+                print("Class '{}' doesn't exist".format(name))
+        else:
+            print("Usage: create <class_name>")
 
     def emptyline (self):
         """
         an empty line + ENTER shouldn’t execute anything
         """
         return
-
+if __name__ == '__main__':
+    HBNBCommand().cmdloop()
