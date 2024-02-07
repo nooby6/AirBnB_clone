@@ -43,5 +43,34 @@ class HBNBCommand(cmd.Cmd):
         an empty line + ENTER shouldn’t execute anything
         """
         return
+
+    def do_show(self, args):
+        """
+        Prints the string represemtation of an instance based on class name and id.
+        """
+        if not args:
+            print("** class name missing **")
+            return
+        class_name, -, instance_id = args.partition(' ')
+
+        if not class_name:
+            print("** class name missing **")
+            return
+
+        if class_name not in classes:
+            print("** class doesn't exist **")
+            return
+
+        if not instance_id:
+            print("** instance id missing **")
+            return
+
+        instance = storage.get(class_name, instance_id)
+        if not instance:
+            print("** no instance found **")
+            return
+
+        print(instance)
+
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
