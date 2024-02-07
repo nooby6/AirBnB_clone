@@ -28,6 +28,8 @@ class HBNBCommand(cmd.Cmd):
         Prints the id
         """
         if name:
+            new_instance = BaseModel
+            new_instance.save() #implement save method in the BaseModel class
 
     def emptyline (self):
         """
