@@ -19,17 +19,23 @@ class BaseModel():
         else sets `id` and `created_at`.
         """
         if kwargs:
-            attrs = [k for k in kwargs.keys() if k != '__class__']          
-            for k in attrs:
-                if k in BaseModel.date_fields:
-                   self.__setattr__(k, datetime.fromisoformat(kwargs[k]))
-                   continue
-                self.__setattr__(k, kwargs[k])
+            self  = BaseModel.create_from_kwargs(kwargs)
         else:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
             storage.new(self)
+
+    @classmethod
+    def create_from_kwargs(cls, kwargs):
+        obj = cls()
+        attrs = [k for k in kwargs.keys() if k != '__class__']          
+        for k in attrs:
+            if k in BaseModel.date_fields:
+                setattr(obj, k, datetime.fromisoformat(kwargs[k]))
+                continue
+            setattr(obj, k, kwargs[k])
+        return obj
 
     def save(self):
         """Saves objects of this class to file.
