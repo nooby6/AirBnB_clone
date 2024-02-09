@@ -10,7 +10,7 @@ class Place(BaseModel):
         super().__init__(*args, **kwargs)
 
         if kwargs:
-            self = Place.create_from_kwargs(kwargs)
+            Place.create_from_kwargs(self, kwargs)
         else:
             self.city_id = ''
             self.user_id = ''

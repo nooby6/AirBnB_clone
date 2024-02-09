@@ -11,6 +11,6 @@ class State(BaseModel):
         super().__init__(*args, **kwargs)
 
         if kwargs:
-            self = State.create_from_kwargs(kwargs)
+            State.create_from_kwargs(self, kwargs)
         else:
             self.name = ''

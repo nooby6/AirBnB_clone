@@ -11,7 +11,7 @@ class Review(BaseModel):
         super().__init__(*args, **kwargs)
 
         if kwargs:
-            self = Review.create_from_kwargs(kwargs)
+            Review.create_from_kwargs(self, kwargs)
         else:
             self.place_id = ''
             self.user_id = ''

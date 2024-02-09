@@ -16,10 +16,10 @@ class BaseModel():
         """Initialize class object instances.
         
         If `**kwargs` exists, the values will be used to initiliaze the object,
-        else sets `id` and `created_at`.
+        otherwise sets `id` and `created_at`.
         """
         if kwargs:
-            self  = BaseModel.create_from_kwargs(kwargs)
+            BaseModel.create_from_kwargs(self, kwargs)
         else:
             self.id = str(uuid4())
             self.created_at = datetime.now()
@@ -27,21 +27,28 @@ class BaseModel():
             storage.new(self)
 
     @classmethod
-    def create_from_kwargs(cls, kwargs):
-        obj = cls()
+    def create_from_kwargs(cls, obj, kwargs):
+        """Sets attributes of an instance of the calling class
+        from a dictionary of arguments
+
+        Args:
+            obj : instance
+            kwargs : keyword arguments corresponding to attributes
+        """
         attrs = [k for k in kwargs.keys() if k != '__class__']          
         for k in attrs:
             if k in BaseModel.date_fields:
                 setattr(obj, k, datetime.fromisoformat(kwargs[k]))
                 continue
             setattr(obj, k, kwargs[k])
-        return obj
+        
 
     def save(self):
         """Saves objects of this class to file.
         
         Calls the `save` method of the `FileStorage` class.
         """
+        self.updated_at = datetime.now()
         storage.save()
 
     def to_dict(self):

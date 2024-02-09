@@ -11,7 +11,7 @@ class User(BaseModel):
         super().__init__(*args, **kwargs)
 
         if kwargs:
-            self = User.create_from_kwargs(kwargs)
+            User.create_from_kwargs(self, kwargs)
         else:
             self.email = ''
             self.password = ''

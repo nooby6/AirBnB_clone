@@ -10,7 +10,7 @@ class City(BaseModel):
         super().__init__(*args, **kwargs)
 
         if kwargs:
-            self = City.create_from_kwargs(kwargs)
+            City.create_from_kwargs(self, kwargs)
         else:
             self.state_id = ''
             self.name = ''

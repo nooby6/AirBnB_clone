@@ -10,6 +10,6 @@ class Amenity(BaseModel):
         super().__init__(*args, **kwargs)
 
         if kwargs:
-            self = Amenity.create_from_kwargs(kwargs)
+            Amenity.create_from_kwargs(self, kwargs)
         else:
             self.name = ''

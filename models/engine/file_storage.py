@@ -29,11 +29,10 @@ class FileStorage():
         Args:
             obj : a BaseModel object dictionary
         """
-
         if isinstance(obj, dict):
-            obj = self.create_new(obj.get('__class__'), obj)
+            obj = self.create_new(obj['__class__'], obj)
 
-        obj_key = f"{obj.__class__.__name__}.{obj.id}"
+        obj_key = f"{obj.__class__.__name__}.{obj.id}"            
         FileStorage.__objects.update({obj_key: obj})
 
     def save(self):
@@ -83,8 +82,12 @@ class FileStorage():
         file_name = class_map.get(classname)
         module = __import__(f"models.{file_name}", fromlist=[classname])
 
-        cls = getattr(module, classname)               
-        return cls(args)
+        cls = getattr(module, classname)  
+
+        if args:        
+            return cls(**args)
+        
+        return cls()
     
     def get_instance(self, key):
         """_summary_
