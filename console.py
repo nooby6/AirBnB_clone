@@ -2,7 +2,7 @@
 """This module defines a command interpreter"""
 import cmd
 from models import storage
-
+import re
 
 class HBNBCommand(cmd.Cmd):
     """This class defines a console for managing objects.
@@ -11,6 +11,27 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = '(hbnb)'
 
+    def precmd(self, line: str) -> str:
+        """_summary_
+
+        Args:
+            line (str): _description_
+
+        Returns:
+            str: _description_
+        """
+        pattern = r'(\w+)\.(\w+)\((.*)\)'
+        
+        match = re.search(pattern, line)
+
+        if match:
+            class_name = match.group(1)
+            method_name = match.group(2)
+            arguments = match.group(3)
+            line = f"{method_name} {class_name} {arguments}"
+
+        return super().precmd(line)
+    
     def do_all(self, arg):
         """Prints a list of all instances of a class or
         of all classes if no class is specified
@@ -75,6 +96,17 @@ class HBNBCommand(cmd.Cmd):
         if check_attributes(attr_name, attr_value):
             storage.update_instance(key, attr_name, attr_value)
 
+    def do_count(self, arg):
+        """_summary_
+
+        Args:
+            arg (_type_): _description_
+        """
+        classname = parse(arg).get('class')
+        if check_classname(classname, needed=True):
+            instances = storage.get_class_instances(classname)
+            print(len(instances))
+        
     def do_EOF(self, arg):
         """Cleanly exits the program on receiving end-of-file marker(Ctrl+D)."""
         return True
@@ -140,7 +172,7 @@ def check_id(id):
     if id is None:
         print(error('missing_id'))
         return False
-
+    
     return True
 
 
@@ -177,6 +209,7 @@ def get_instance_key(args):
 def parse(arg):
     """Convert console arguments into an argument dict"""
     args = ['class', 'id', 'attr_name', 'attr_val']
+
     return dict(zip(args, arg.split()))
 
 
