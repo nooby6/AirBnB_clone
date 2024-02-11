@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""This module defines a command interpreter"""
+"""
+This will be the command line interpreter module
+"""
 import cmd
 from models import storage
 import re
@@ -9,7 +11,8 @@ class HBNBCommand(cmd.Cmd):
 
     Has create, show, update and delete functionality.
     """
-    prompt = '(hbnb)'
+    prompt = "(hbnb)"
+    classes = ("BaseModel", "User", "State", "Amenity", "City", "Place", "Review")
 
     def precmd(self, line: str) -> str:
         """_summary_
@@ -58,7 +61,7 @@ class HBNBCommand(cmd.Cmd):
             print(obj.id)
 
     def do_show(self, arg):
-        """Prints an instance based on the class name and id
+        """Prints the string representation of an instance based on the class name and id
 
         Args:
             arg (str): class and object id in the order: `classname id`
@@ -75,6 +78,7 @@ class HBNBCommand(cmd.Cmd):
         Args:
             arg (str): class and object id in the order: `classname id`
         """
+
         key = get_instance_key(parse(arg))
         if key:
             if not storage.destroy_instance(key):
@@ -115,6 +119,13 @@ class HBNBCommand(cmd.Cmd):
         """Quit command to exit the program"""
         return True
 
+    def do_help(self, args):
+        """
+        List available commands with "help" or detailed help with "help cmd"
+        """
+        # Call the  do_help method of the parent class to provide default behaviour
+        cmd.Cmd.do_help(self, args)
+        
     def emptyline(self):
         pass
 
@@ -211,7 +222,6 @@ def parse(arg):
     args = ['class', 'id', 'attr_name', 'attr_val']
 
     return dict(zip(args, arg.split()))
-
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
