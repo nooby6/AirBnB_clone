@@ -32,7 +32,7 @@ class FileStorage():
         if isinstance(obj, dict):
             obj = self.create_new(obj['__class__'], obj)
 
-        obj_key = f"{obj.__class__.__name__}.{obj.id}"            
+        obj_key = f"{obj.__class__.__name__}.{obj.id}"
         FileStorage.__objects.update({obj_key: obj})
 
     def save(self):
@@ -69,7 +69,7 @@ class FileStorage():
         Args:
             classname (str): The name of the class to instantiate.
         """
-        
+
         # Dynamically import the class
         class_map = {'BaseModel': 'base_model',
                      'User': 'user',
@@ -82,20 +82,20 @@ class FileStorage():
         file_name = class_map.get(classname)
         module = __import__(f"models.{file_name}", fromlist=[classname])
 
-        cls = getattr(module, classname)  
+        cls = getattr(module, classname)
 
-        if args:        
+        if args:
             return cls(**args)
-        
+
         return cls()
-    
+
     def get_instance(self, key):
         """_summary_
 
         Args:
             id (_type_): _description_
         """
-        
+
         return self.__objects.get(key)
 
     def destroy_instance(self, key):
@@ -109,21 +109,22 @@ class FileStorage():
             self.__objects.pop(key)
             self.save()
             return True
-        
+
     def get_class_instances(self, classname=None):
         """Retrieve all instances of a given class or all saved instances
         if no class is specified.
 
         Args:
-            classname (str, optional): Name of the class to retrieve instances for.
+            classname (str, optional): Name of the class to retrieve instances.
 
         Returns:
             list[str]: Instances as strings.
         """
         if classname is None:
             return [str(obj) for obj in self.__objects.values()]
-        
-        return [str(v) for k, v in self.__objects.items() if k.startswith(classname)]
+
+        return [str(v) for k, v in self.__objects.items()
+                if k.startswith(classname)]
 
     def update_instance(self, obj_key, attr_name, attr_val):
         """_summary_
@@ -134,9 +135,7 @@ class FileStorage():
             attr_val (_type_): _description_
         """
         obj = self.get_instance(obj_key)
-        if obj:            
+        if obj:
             attr_type = type(getattr(obj, attr_name, ''))
             attr_val = attr_type(attr_val)
             setattr(obj, attr_name, attr_val)
-
-    

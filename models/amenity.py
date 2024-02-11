@@ -3,6 +3,7 @@
 
 from models.base_model import BaseModel
 
+
 class Amenity(BaseModel):
     """This class defines an anemity that can be found in a place"""
 
