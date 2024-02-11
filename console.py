@@ -4,6 +4,7 @@ import cmd
 from models import storage
 import re
 
+
 class HBNBCommand(cmd.Cmd):
     """This class defines a console for managing objects.
 
@@ -12,26 +13,28 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb)'
 
     def precmd(self, line: str) -> str:
-        """_summary_
+        """Converts a <classname>.command(arguments) command to the standard
+        command ClassName arguments format.
 
         Args:
-            line (str): _description_
+            line (str): Initial command
 
         Returns:
-            str: _description_
+            str: Converted command
         """
         pattern = r'(\w+)\.(\w+)\((.*)\)'
-        
+
         match = re.search(pattern, line)
 
         if match:
             class_name = match.group(1)
             method_name = match.group(2)
-            arguments = match.group(3)
-            line = f"{method_name} {class_name} {arguments}"
+            args = (' ').join(m.strip() for m in match.group(3).split(','))
+
+            line = f"{method_name} {class_name} {args}"
 
         return super().precmd(line)
-    
+
     def do_all(self, arg):
         """Prints a list of all instances of a class or
         of all classes if no class is specified
@@ -81,7 +84,7 @@ class HBNBCommand(cmd.Cmd):
                 print(error('invalid_id'))
 
     def do_update(self, arg):
-        """ Updates an instance based on the class name and id 
+        """ Updates an instance based on the class name and id
         by adding or updating a single attribute.
 
         The change is saved into the JSON file.
@@ -106,9 +109,10 @@ class HBNBCommand(cmd.Cmd):
         if check_classname(classname, needed=True):
             instances = storage.get_class_instances(classname)
             print(len(instances))
-        
+
     def do_EOF(self, arg):
-        """Cleanly exits the program on receiving end-of-file marker(Ctrl+D)."""
+        """Cleanly exits the program on receiving end-of-file marker(Ctrl+D).
+        """
         return True
 
     def do_quit(self, arg):
@@ -172,7 +176,7 @@ def check_id(id):
     if id is None:
         print(error('missing_id'))
         return False
-    
+
     return True
 
 
@@ -188,7 +192,7 @@ def check_attributes(attr_name, attr_value):
 
     if attr_name in ['id', 'created_at', 'updated_at']:
         return False
-    
+
     if attr_value is None:
         print(error('missing_attr_value'))
         return False
