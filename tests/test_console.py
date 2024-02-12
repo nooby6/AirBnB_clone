@@ -1,47 +1,53 @@
-#!/usr/bin/python3
-"""This module contains unit tests for the console"""
+#!/usr/bin/env python3
+"""Module containing unit tests for the console."""
 import unittest
 from console import HBNBCommand
 from unittest.mock import patch
 from io import StringIO
 
+
 class TestConsole(unittest.TestCase):
-    """This class defines a couple of tests for the console.
-    """
+    """Class defining tests for the console."""
 
     def setUp(self):
-        """Set up test fixtures"""
+        """Set up test fixtures."""
         self.console = HBNBCommand()
 
     def tearDown(self):
-        """Tear down test fixtures"""
+        """Tear down test fixtures."""
         pass
 
     def test_quit_command(self):
-        """Test quit command"""
+        """Test quit command."""
         with patch('sys.stdout', new=StringIO()) as fake_out:
             self.assertTrue(self.console.onecmd("quit"))
             self.assertEqual(fake_out.getvalue().strip(), "Exiting the program...")
 
     def test_create_command(self):
-        """Test create command"""
-        # Implement test cases for create command
+        """Test create command."""
+        # Write test cases for create command
+        pass
 
     def test_show_command(self):
-        """Test show command"""
-        # Implement test cases for show command
+        """Test show command."""
+        # Write test cases for show command
+        pass
 
     def test_destroy_command(self):
-        """Test destroy command"""
-        # Implement test cases for destroy command
+        """Test destroy command."""
+        # Write test cases for destroy command
+        pass
 
     def test_all_command(self):
-        """Test all command"""
-        # Implement test cases for all command
+        """Test all command."""
+        # Write test cases for all command
+        pass
 
     def test_update_command(self):
-        """Test update command"""
-        # Implement test cases for update command
+        """Test update command."""
+        # Write test cases for update command
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()
