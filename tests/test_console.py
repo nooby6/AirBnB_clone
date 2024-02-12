@@ -11,10 +11,11 @@ class TestConsole(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        self.console = HBNBCommand()
+        self.cmd = HBNBCommand()
 
     def tearDown(self):
         """Tear down test fixtures."""
+        self.cmd =none
         pass
 
     def test_quit_command(self):
@@ -22,32 +23,12 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as fake_out:
             self.assertTrue(self.console.onecmd("quit"))
             self.assertEqual(fake_out.getvalue().strip(), "Exiting the program...")
+            output = fake_out.getvalue().strip()
+            self.assertEqual(output, '')
 
-    def test_create_command(self):
-        """Test create command."""
-        # Write test cases for create command
-        pass
+    def test_EOF_command_success(self):
 
-    def test_show_command(self):
-        """Test show command."""
-        # Write test cases for show command
-        pass
-
-    def test_destroy_command(self):
-        """Test destroy command."""
-        # Write test cases for destroy command
-        pass
-
-    def test_all_command(self):
-        """Test all command."""
-        # Write test cases for all command
-        pass
-
-    def test_update_command(self):
-        """Test update command."""
-        # Write test cases for update command
-        pass
-
+    def test_emptyline_command(self)
 
 if __name__ == '__main__':
     unittest.main()
