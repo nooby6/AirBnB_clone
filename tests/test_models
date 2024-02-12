@@ -1,0 +1,26 @@
+#!/usr/bin/python3
+
+import unittest
+from models.base_model import BaseModel
+
+class TestBaseModel(unittest.TestCase):
+    def test_initialization(self):
+        obj = BaseModel()
+        self.assertIsNotNone(obj)
+        self.assertIsInstance(obj, BaseModel)
+
+    def test_attribute_access(self):
+        obj = BaseModel()
+        obj.name = "TestObject"
+        self.assertEqual(obj.name, "TestObject")
+
+    def test_attribute_assignment(self):
+        obj = BaseModel()
+        obj.name = "TestObject"
+        obj.name = "UpdatedObject"
+        self.assertEqual(obj.name, "UpdatedObject")
+
+    # Add more test methods for other functionalities...
+
+if __name__ == '__main__':
+    unittest.main()

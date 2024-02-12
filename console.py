@@ -7,6 +7,7 @@ This will be the command line interpreter module
 """This module defines a command interpreter"""
 >>>>>>> c76cd43f2ca67d0df5b6a1792b3c70adc94e336b
 import cmd
+<<<<<<< HEAD
 from models.base_model import BaseModel
 <<<<<<< HEAD
 from models.user import User
@@ -17,14 +18,15 @@ from models.place import Place
 from models.review import Review
 =======
 >>>>>>> c76cd43f2ca67d0df5b6a1792b3c70adc94e336b
+=======
+>>>>>>> 2a90bde19a8e45ec44c01a9b755dd33ff5468cde
 from models import storage
-
+import re
 
 class HBNBCommand(cmd.Cmd):
-    """_summary_
+    """This class defines a console for managing objects.
 
-    Args:
-        cmd (_type_): _description_
+    Has create, show, update and delete functionality.
     """
 <<<<<<< HEAD
     this creates an entry point for the command line interpreter
@@ -36,19 +38,43 @@ class HBNBCommand(cmd.Cmd):
     def do_quit(self, line):
 =======
     prompt = '(hbnb)'
-    classes = ['BaseModel']
-    instances = storage.all()
 
-    def do_all(self, arg):
+    def precmd(self, line: str) -> str:
         """_summary_
 
         Args:
+<<<<<<< HEAD
             arg (_type_): _description_
 >>>>>>> c76cd43f2ca67d0df5b6a1792b3c70adc94e336b
+=======
+            line (str): _description_
+
+        Returns:
+            str: _description_
+>>>>>>> 2a90bde19a8e45ec44c01a9b755dd33ff5468cde
         """
-        classname = parse(arg).get(0)
-        instances = self.get_class_instances(classname)
-        if instances:
+        pattern = r'(\w+)\.(\w+)\((.*)\)'
+        
+        match = re.search(pattern, line)
+
+        if match:
+            class_name = match.group(1)
+            method_name = match.group(2)
+            arguments = match.group(3)
+            line = f"{method_name} {class_name} {arguments}"
+
+        return super().precmd(line)
+    
+    def do_all(self, arg):
+        """Prints a list of all instances of a class or
+        of all classes if no class is specified
+
+        Args:
+            arg (str): class to display objects of
+        """
+        classname = parse(arg).get('class')
+        if check_classname(classname, needed=False):
+            instances = storage.get_class_instances(classname)
             print(instances)
 
     def do_create(self, arg):
@@ -59,36 +85,44 @@ class HBNBCommand(cmd.Cmd):
             arg (str): Name of class to create object
         """
 <<<<<<< HEAD
+<<<<<<< HEAD
         return True # Return True to indicate that the program should exit
 =======
         classname = parse(arg).get(0)
         if self.check_classname(classname):
             obj = BaseModel()
+=======
+        classname = parse(arg).get('class')
+        if check_classname(classname):
+            obj = storage.create_new(classname)
+>>>>>>> 2a90bde19a8e45ec44c01a9b755dd33ff5468cde
             obj.save()
             print(obj.id)
 
     def do_show(self, arg):
+<<<<<<< HEAD
         """Prints the string representation of an instance based on the class name and id
 >>>>>>> c76cd43f2ca67d0df5b6a1792b3c70adc94e336b
+=======
+        """Prints an instance based on the class name and id
+>>>>>>> 2a90bde19a8e45ec44c01a9b755dd33ff5468cde
 
         Args:
-            arg : strings in the order: classname id
+            arg (str): class and object id in the order: `classname id`
         """
-        classname = parse(arg).get(0)
-        id = parse(arg).get(1)
-        if self.check_classname(classname) and self.check_id(id):
-            key = f"{classname}.{id}"
-            obj = self.get_instance(key)
-            if obj:
-                print(obj)
+        key = get_instance_key(parse(arg))
+        if key:
+            obj = storage.get_instance(key)
+            print(obj or error('invalid_id'))
 
     def do_destroy(self, arg):
         """Deletes an instance based on the class name and id
         (save the change into the JSON file)
 
         Args:
-            arg (_type_): _description_
+            arg (str): class and object id in the order: `classname id`
         """
+<<<<<<< HEAD
 <<<<<<< HEAD
         return True # Return True to indicate that the program should exit
 =======
@@ -100,6 +134,12 @@ class HBNBCommand(cmd.Cmd):
             if obj:
                 HBNBCommand.instances.pop(key)
                 obj.save()
+=======
+        key = get_instance_key(parse(arg))
+        if key:
+            if not storage.destroy_instance(key):
+                print(error('invalid_id'))
+>>>>>>> 2a90bde19a8e45ec44c01a9b755dd33ff5468cde
 
     def do_update(self, arg):
         """ Updates an instance based on the class name and id 
@@ -108,23 +148,26 @@ class HBNBCommand(cmd.Cmd):
         The change is saved into the JSON file.
 
         Args:
+            arg (str): class, object id and atribbute in the order:
+            `classname id attribute_name attribute_value`
+        """
+        key = get_instance_key(parse(arg))
+        attr_name = parse(arg).get('attr_name')
+        attr_value = parse(arg).get('attr_val')
+        if check_attributes(attr_name, attr_value):
+            storage.update_instance(key, attr_name, attr_value)
+
+    def do_count(self, arg):
+        """_summary_
+
+        Args:
             arg (_type_): _description_
         """
-        key = self.get_instance_key(arg)
-        obj = self.get_instance(key)
-        if obj:
-
-            HBNBCommand.instances.update({key: obj})
-
-    def get_instance_key(self, args):
-        """
-        """
-        classname = parse(args).get(0)
-        id = parse(args).get(1)
-
-        if self.check_classname(classname) and self.check_id(id):
-            return f"{classname}.{id}"
-
+        classname = parse(arg).get('class')
+        if check_classname(classname, needed=True):
+            instances = storage.get_class_instances(classname)
+            print(len(instances))
+        
     def do_EOF(self, arg):
         """Cleanly exits the program on receiving end-of-file marker(Ctrl+D)."""
         return True
@@ -137,46 +180,48 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         pass
 
-    def print_error(self, error_type):
-        """Print an error message based on the error type."""
-        error_messages = {
-            'invalid_class': "** class doesn't exist **",
-            'missing_classname': "** class name missing **",
-            'missing_id': "** instance id missing **",
-            'invalid_id': "** no instance found **",
-            'missing_attr_name': "** attribute name missing **",
-            'missing_attr_value': "** value missing **"
-        }
 
-        print(error_messages.get(error_type, "** unknown error **"))
+def error(error_type):
+    """Return an error message based on the error type."""
+    error_messages = {
+        'invalid_class': "** class doesn't exist **",
+        'missing_classname': "** class name missing **",
+        'missing_id': "** instance id missing **",
+        'invalid_id': "** no instance found **",
+        'missing_attr_name': "** attribute name missing **",
+        'missing_attr_value': "** value missing **"
+    }
 
-    def check_classname(self, classname, needed=True):
-        """Check if `classname` is a valid class name.
+    return error_messages.get(error_type, "** unknown error **")
 
-        Args:
-            classname(str): name to check if class
-            needed (bool): if the classname has to exist or can be None
 
-        Returns:
-            bool: True if the class name is valid, False otherwise.
-        """
+def check_classname(classname, needed=True):
+    """Check if `classname` is a valid class name.
 
-        if needed and classname is None:
-            self.print_error('missing_classname')
-            return False
+    Args:
+        classname(str): name to check if class
+        needed (bool): if the classname has to exist or can be None
 
-        if classname in HBNBCommand.classes:
-            return True
+    Returns:
+        bool: True if the class name is valid, False otherwise.
+    """
+    classes = ['BaseModel', 'User', 'State',
+               'City', 'Amenity', 'Place', 'Review']
 
-        self.print_error('invalid_class')
+    if classname is None and not needed:
+        return True
+
+    if classname is None and needed:
+        print(error('missing_classname'))
         return False
 
-    def check_id(self, id):
-        """Check if the instance id argument is present.
+    if classname in classes:
+        return True
 
-        Args:
-            args (dict): A dictionary containing parsed arguments.
+    print(error('invalid_class'))
+    return False
 
+<<<<<<< HEAD
         Returns:
             bool: True if the instance ID is present, False otherwise.
         """
@@ -196,41 +241,60 @@ class HBNBCommand(cmd.Cmd):
             self.print_error('missing_id')
             return False
 >>>>>>> c76cd43f2ca67d0df5b6a1792b3c70adc94e336b
+=======
+>>>>>>> 2a90bde19a8e45ec44c01a9b755dd33ff5468cde
 
-        return True
+def check_id(id):
+    """Check if the instance id argument is present.
 
-    def get_instance(self, id):
-        """_summary_
+    Args:
+        args (dict): A dictionary containing parsed arguments.
 
-        Args:
-            id (_type_): _description_
-        """
-        if id in HBNBCommand.instances:
-            return HBNBCommand.instances[id]
+    Returns:
+        bool: True if the instance ID is present, False otherwise.
+    """
+    if id is None:
+        print(error('missing_id'))
+        return False
+    
+    return True
 
-        self.print_error('invalid_id')
 
-    def get_class_instances(self, classname=None):
-        """Retrieve all instances of a given class or all saved instances
-        if no class is specified.
+def check_attributes(attr_name, attr_value):
+    """Verifies that the attribute name  and value exist and are valid
 
-        Args:
-            classname (str, optional): Name of the class to retrieve instances for.
+    Args:
+        args (str): Attribute to verify
+    """
+    if attr_name is None:
+        print(error('missing_attr_name'))
+        return False
 
-        Yields:
-            str: Instances as strings.
-        """
-        if classname is None:
-            return [str(obj) for obj in HBNBCommand.instances.values()]
+    if attr_name in ['id', 'created_at', 'updated_at']:
+        return False
+    
+    if attr_value is None:
+        print(error('missing_attr_value'))
+        return False
 
-        if self.check_classname(classname, needed=False):
-            return [str(v) for k, v in HBNBCommand.instances.items() if k.startswith(classname)]
+    return True
+
+
+def get_instance_key(args):
+    """
+    """
+    classname = args.get('class')
+    id = args.get('id')
+
+    if check_classname(classname) and check_id(id):
+        return f"{classname}.{id}"
 
 
 def parse(arg):
     """Convert console arguments into an argument dict"""
+    args = ['class', 'id', 'attr_name', 'attr_val']
 
-    return {i: val for i, val in enumerate(arg.split())}
+    return dict(zip(args, arg.split()))
 
 
 <<<<<<< HEAD
