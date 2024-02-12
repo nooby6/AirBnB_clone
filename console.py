@@ -13,7 +13,6 @@ class HBNBCommand(cmd.Cmd):
     Has create, show, update and delete functionality.
     """
     prompt = "(hbnb)"
-    classes = ("BaseModel", "User", "State", "Amenity", "City", "Place", "Review")
 
     def precmd(self, line: str) -> str:
         """Converts a <classname>.command(arguments) command to the standard
@@ -64,7 +63,8 @@ class HBNBCommand(cmd.Cmd):
             print(obj.id)
 
     def do_show(self, arg):
-        """Prints the string representation of an instance based on the class name and id
+        """Prints the string representation of an instance based on
+        the class name and id
 
         Args:
             arg (str): class and object id in the order: `classname id`
@@ -127,9 +127,8 @@ class HBNBCommand(cmd.Cmd):
         """
         List available commands with "help" or detailed help with "help cmd"
         """
-        # Call the  do_help method of the parent class to provide default behaviour
         cmd.Cmd.do_help(self, args)
-        
+
     def emptyline(self):
         pass
 
@@ -226,6 +225,7 @@ def parse(arg):
     args = ['class', 'id', 'attr_name', 'attr_val']
 
     return dict(zip(args, arg.split()))
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
