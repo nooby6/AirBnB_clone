@@ -3,22 +3,13 @@
 This will be the command line interpreter module
 """
 import cmd
-<<<<<<< HEAD
-<<<<<<< HEAD
 from models.base_model import BaseModel
-<<<<<<< HEAD
 from models.user import User
 from models.state import State
 from models.amenity import Amenity
 from models.city import City
 from models.place import Place
 from models.review import Review
-=======
->>>>>>> c76cd43f2ca67d0df5b6a1792b3c70adc94e336b
-=======
->>>>>>> 2a90bde19a8e45ec44c01a9b755dd33ff5468cde
-=======
->>>>>>> 2c30da3b1534c0e1b8900a5dfa61fb36a1018d2d
 from models import storage
 import re
 
@@ -36,22 +27,17 @@ class HBNBCommand(cmd.Cmd):
         """
 
         Args:
-<<<<<<< HEAD
-<<<<<<< HEAD
+
             arg (_type_): _description_
->>>>>>> c76cd43f2ca67d0df5b6a1792b3c70adc94e336b
-=======
             line (str): _description_
 
         Returns:
             str: _description_
->>>>>>> 2a90bde19a8e45ec44c01a9b755dd33ff5468cde
-=======
+
             line (str): Initial command
 
         Returns:
             str: Converted command
->>>>>>> 2c30da3b1534c0e1b8900a5dfa61fb36a1018d2d
         
         pattern = r'(\w+)\.(\w+)\((.*)\)'
 
@@ -86,39 +72,22 @@ class HBNBCommand(cmd.Cmd):
         Args:
             arg (str): Name of class to create object
         
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
         return True # Return True to indicate that the program should exit
-=======
+
         classname = parse(arg).get(0)
         if self.check_classname(classname):
             obj = BaseModel()
-=======
+
         classname = parse(arg).get('class')
         if check_classname(classname):
             obj = storage.create_new(classname)
->>>>>>> 2a90bde19a8e45ec44c01a9b755dd33ff5468cde
-=======
-        classname = parse(arg).get('class')
-        if check_classname(classname):
-            obj = storage.create_new(classname)
->>>>>>> 2c30da3b1534c0e1b8900a5dfa61fb36a1018d2d
             obj.save()
             print(obj.id)
 
     def do_show(self, arg):
-<<<<<<< HEAD
-<<<<<<< HEAD
-        """Prints the string representation of an instance based on the class name and id"""
->>>>>>> c76cd43f2ca67d0df5b6a1792b3c70adc94e336b
-=======
-        """Prints an instance based on the class name and id"""
->>>>>>> 2a90bde19a8e45ec44c01a9b755dd33ff5468cde
-=======
-        """Prints the string representation of an instance based on
-        the class name and id """
->>>>>>> 2c30da3b1534c0e1b8900a5dfa61fb36a1018d2d
+        """Prints the string representation of an instance based on the class name and id
+            
+            Prints an instance based on the class name and id"""
 
         Args:
             arg (str): class and object id in the order: `classname id`
@@ -133,11 +102,9 @@ class HBNBCommand(cmd.Cmd):
 
         Args:
             arg (str): class and object id in the order: `classname id`
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
         return True # Return True to indicate that the program should exit
-=======
+
         classname = parse(arg).get(0)
         id = parse(arg).get(1)
         if self.check_classname(classname) and self.check_id(id):
@@ -146,18 +113,11 @@ class HBNBCommand(cmd.Cmd):
             if obj:
                 HBNBCommand.instances.pop(key)
                 obj.save()
-=======
-=======
 
->>>>>>> 2c30da3b1534c0e1b8900a5dfa61fb36a1018d2d
         key = get_instance_key(parse(arg))
         if key:
             if not storage.destroy_instance(key):
                 print(error('invalid_id'))
-<<<<<<< HEAD
->>>>>>> 2a90bde19a8e45ec44c01a9b755dd33ff5468cde
-=======
->>>>>>> 2c30da3b1534c0e1b8900a5dfa61fb36a1018d2d
 
     def do_update(self, arg):
         """ Updates an instance based on the class name and id
@@ -243,13 +203,11 @@ def check_classname(classname, needed=True):
 
     print(error('invalid_class'))
     return False
-
-<<<<<<< HEAD
-<<<<<<< HEAD
+        """
         Returns:
             bool: True if the instance ID is present, False otherwise.
         """
-<<<<<<< HEAD
+
         if name:
             #check if the class exists
             if class_exists(name):
@@ -260,15 +218,10 @@ def check_classname(classname, needed=True):
                 print("Class '{}' doesn't exist".format(name))
         else:
             print("Usage: create <class_name>")
-=======
+
         if id is None:
             self.print_error('missing_id')
             return False
->>>>>>> c76cd43f2ca67d0df5b6a1792b3c70adc94e336b
-=======
->>>>>>> 2a90bde19a8e45ec44c01a9b755dd33ff5468cde
-=======
->>>>>>> 2c30da3b1534c0e1b8900a5dfa61fb36a1018d2d
 
 def check_id(id):
     """Check if the instance id argument is present.
