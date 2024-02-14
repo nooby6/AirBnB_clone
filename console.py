@@ -33,6 +33,7 @@ class HBNBCommand(cmd.Cmd):
     def precmd(self, line: str) -> str:
         """Converts a <classname>.command(arguments) command to the standard
         command ClassName arguments format.
+        """
 
         Args:
 <<<<<<< HEAD
@@ -51,7 +52,7 @@ class HBNBCommand(cmd.Cmd):
         Returns:
             str: Converted command
 >>>>>>> 2c30da3b1534c0e1b8900a5dfa61fb36a1018d2d
-        """
+        
         pattern = r'(\w+)\.(\w+)\((.*)\)'
 
         match = re.search(pattern, line)
@@ -68,10 +69,10 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         """Prints a list of all instances of a class or
         of all classes if no class is specified
-
+        """
         Args:
             arg (str): class to display objects of
-        """
+
         classname = parse(arg).get('class')
         if check_classname(classname, needed=False):
             instances = storage.get_class_instances(classname)
@@ -80,10 +81,11 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, arg):
         """Creates a new instance of `arg`,
         saves it (to the JSON file) and prints the id
+        """
 
         Args:
             arg (str): Name of class to create object
-        """
+        
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -108,19 +110,18 @@ class HBNBCommand(cmd.Cmd):
     def do_show(self, arg):
 <<<<<<< HEAD
 <<<<<<< HEAD
-        """Prints the string representation of an instance based on the class name and id
+        """Prints the string representation of an instance based on the class name and id"""
 >>>>>>> c76cd43f2ca67d0df5b6a1792b3c70adc94e336b
 =======
-        """Prints an instance based on the class name and id
+        """Prints an instance based on the class name and id"""
 >>>>>>> 2a90bde19a8e45ec44c01a9b755dd33ff5468cde
 =======
         """Prints the string representation of an instance based on
-        the class name and id
+        the class name and id """
 >>>>>>> 2c30da3b1534c0e1b8900a5dfa61fb36a1018d2d
 
         Args:
             arg (str): class and object id in the order: `classname id`
-        """
         key = get_instance_key(parse(arg))
         if key:
             obj = storage.get_instance(key)
@@ -128,11 +129,10 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, arg):
         """Deletes an instance based on the class name and id
-        (save the change into the JSON file)
+        (save the change into the JSON file)"""
 
         Args:
             arg (str): class and object id in the order: `classname id`
-        """
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -163,12 +163,11 @@ class HBNBCommand(cmd.Cmd):
         """ Updates an instance based on the class name and id
         by adding or updating a single attribute.
 
-        The change is saved into the JSON file.
+        The change is saved into the JSON file. """
 
         Args:
             arg (str): class, object id and atribbute in the order:
             `classname id attribute_name attribute_value`
-        """
         key = get_instance_key(parse(arg))
         attr_name = parse(arg).get('attr_name')
         attr_value = parse(arg).get('attr_val')
