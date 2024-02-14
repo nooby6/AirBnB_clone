@@ -22,9 +22,10 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb)"
 
     def precmd(self, line: str) -> str:
-        """Converts a <classname>.command(arguments) command to the standard
-        command ClassName arguments format.
+        
         """
+        Converts a <classname>.command(arguments) command to the standard
+        command ClassName arguments format.
 
         Args:
 
@@ -38,7 +39,7 @@ class HBNBCommand(cmd.Cmd):
 
         Returns:
             str: Converted command
-        
+        """
         pattern = r'(\w+)\.(\w+)\((.*)\)'
 
         match = re.search(pattern, line)
@@ -53,30 +54,31 @@ class HBNBCommand(cmd.Cmd):
         return super().precmd(line)
 
     def do_all(self, arg):
-        """Prints a list of all instances of a class or
-        of all classes if no class is specified
+        
         """
+        Prints a list of all instances of a class or
+        of all classes if no class is specified
+        
         Args:
             arg (str): class to display objects of
-
+        """
         classname = parse(arg).get('class')
         if check_classname(classname, needed=False):
             instances = storage.get_class_instances(classname)
             print(instances)
 
     def do_create(self, arg):
-        """Creates a new instance of `arg`,
-        saves it (to the JSON file) and prints the id
+        
         """
+        Creates a new instance of `arg`,
+        saves it (to the JSON file) and prints the id
+        
 
         Args:
             arg (str): Name of class to create object
         
         return True # Return True to indicate that the program should exit
-
-        classname = parse(arg).get(0)
-        if self.check_classname(classname):
-            obj = BaseModel()
+        """
 
         classname = parse(arg).get('class')
         if check_classname(classname):
@@ -85,26 +87,33 @@ class HBNBCommand(cmd.Cmd):
             print(obj.id)
 
     def do_show(self, arg):
-        """Prints the string representation of an instance based on the class name and id
-            
-            Prints an instance based on the class name and id"""
+        
+        """
+        Prints the string representation of an instance based on the class name and id
+        Prints an instance based on the class name and id
+        
 
         Args:
             arg (str): class and object id in the order: `classname id`
+        """
+
         key = get_instance_key(parse(arg))
         if key:
             obj = storage.get_instance(key)
             print(obj or error('invalid_id'))
 
     def do_destroy(self, arg):
-        """Deletes an instance based on the class name and id
-        (save the change into the JSON file)"""
+        
+        """
+        Deletes an instance based on the class name and id
+        (save the change into the JSON file)
 
         Args:
             arg (str): class and object id in the order: `classname id`
 
         return True # Return True to indicate that the program should exit
 
+        """
         classname = parse(arg).get(0)
         id = parse(arg).get(1)
         if self.check_classname(classname) and self.check_id(id):
@@ -120,14 +129,19 @@ class HBNBCommand(cmd.Cmd):
                 print(error('invalid_id'))
 
     def do_update(self, arg):
-        """ Updates an instance based on the class name and id
+        
+        """ 
+
+        Updates an instance based on the class name and id
         by adding or updating a single attribute.
 
-        The change is saved into the JSON file. """
+        The change is saved into the JSON file.
 
         Args:
             arg (str): class, object id and atribbute in the order:
             `classname id attribute_name attribute_value`
+        """
+
         key = get_instance_key(parse(arg))
         attr_name = parse(arg).get('attr_name')
         attr_value = parse(arg).get('attr_val')
@@ -135,10 +149,14 @@ class HBNBCommand(cmd.Cmd):
             storage.update_instance(key, attr_name, attr_value)
 
     def do_count(self, arg):
-        """_summary_
+        """
+        Counts the number of instances of a specified class.
 
-        Args:
-            arg (_type_): _description_
+    Args:
+        arg (str): The class name.
+
+    Returns:
+        int: The number of instances of the specified class.
         """
         classname = parse(arg).get('class')
         if check_classname(classname, needed=True):
