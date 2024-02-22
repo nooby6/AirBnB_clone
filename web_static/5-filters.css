@@ -1,0 +1,25 @@
+.filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.locations,
+.amenities {
+    width: 25%;
+    height: 100%;
+    border-right: 1px solid #DDD;
+}
+
+.locations {
+    border-right: none;
+}
+
+h3 {
+    font-weight: 600;
+}
+
+h4 {
+    font-weight: 400;
+    font-size: 14px;
+}
