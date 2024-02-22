@@ -1,15 +1,6 @@
 footer {
+    background-color: #333;
     color: white;
-    height: 60px;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
+    padding: 10px;
     text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-footer span {
-    color: white;
 }
