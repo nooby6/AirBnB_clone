@@ -4,10 +4,37 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>AirBnb</title>
-    </head>
+    <style>
+            body {
+                padding: 0;
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+        header {
+            background-color: #FF0000;
+            height: 70px;
+            width: 100%;
+        }
 
-    <body style="padding: 0;margin: o;">
-        <header style="background-color: #FF0000;height:  70px;width: 100;"></header>
-        <footer style="background-color: #00FF00;height 60px;width: 100%; position: absolute;bottom: 0;text-align: center;line-height: 60px;">Best School</footer>
-    </body>
+        main {
+            flex: 1;
+        }
+
+        footer {
+            background-color: #00FF00;
+            height: 60px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+        </head>
+        <body>
+            <header></header>
+            <main></main>
+            <footer>Best School</footer>
+        </body>
     </html>
